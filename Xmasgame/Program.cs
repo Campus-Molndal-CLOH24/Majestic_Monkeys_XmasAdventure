@@ -11,10 +11,7 @@ public static class Program
         MainMenu.HandleMainMenu();
        
 
-        int magicBallsFound = 0;
-        int totalMagicBalls = 5;
-        int lives = 3;
-        int attemptsLeft = 5;
+    
 
         
     }
