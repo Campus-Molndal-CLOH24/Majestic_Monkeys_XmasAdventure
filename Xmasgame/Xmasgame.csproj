@@ -7,4 +7,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="santa\**" />
+    <EmbeddedResource Remove="santa\**" />
+    <None Remove="santa\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="UI\" />
+    <Folder Include="Logic\" />
+  </ItemGroup>
+
 </Project>
