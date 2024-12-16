@@ -1,5 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿
 using System.Runtime.InteropServices;
+using Xmasgame.UI;
 
-Console.WriteLine("Hello, World!");
- 
+namespace Xmasgame;
+
+public static class Program
+{
+    public static void Main(string[] args)
+    {
+        MainMenu.HandleMainMenu();
+    }
+}
