@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Xmasgame.UI
 {
     public static class MainMenu
@@ -72,11 +73,20 @@ namespace Xmasgame.UI
             }
         }
 
-        public static void StartNewGame()
+        public static void StartNewGame() // create new game ? 
         {
             Console.WriteLine("Starting a new game .....");
+            Console.WriteLine("What is your name?");
+            string playerName = Console.ReadLine();
+            Console.WriteLine($"Welcome, {playerName}! Let’s start the adventure.");
+
+            string[] rooms = { "Living Room", "Toy Workshop", "Snowy Forest" };
+            int chosenRoom = InputHandler.GetRoomchoice(rooms);
+
+            Console.WriteLine($"You are entering the {rooms[chosenRoom]}...");
+            
         }
-        public static void LoadGame()
+        public static void LoadGame() //progress ?? 
         {
             Console.WriteLine("Loading Game ......... ");
         }
@@ -84,9 +94,9 @@ namespace Xmasgame.UI
         {
             Console.WriteLine("\n=== Help ===");
             Console.WriteLine("1. In this game, you help Santa find magic balls.");
-            Console.WriteLine("2. Explore rooms, avoid Marcus, and collect all the magic balls.");
+            Console.WriteLine("2. Explore rooms, avoid The Marcus pupika, and collect all the magic balls.");
             Console.WriteLine("3. Use the menu to check progress or restart the game.");
-            Console.WriteLine("4. Don't let Marcus steal your lives or attempts!");
+            Console.WriteLine("4. Don't let Marcus steal your balls!");
         }
     }
 }
