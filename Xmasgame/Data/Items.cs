@@ -16,10 +16,10 @@ namespace Xmasgame.Data
 
         public Items(int ItemID, string ItemName, bool IsMagical, string description)
         {
-            ItemID = ItemID;
-            IsMagical = false;
-            ItemName = ItemName;
-            Description = description;
+            this.ItemID = ItemID;
+            this.IsMagical = false;
+            this.ItemName = ItemName;
+            this.Description = description;
         }
     }
 }

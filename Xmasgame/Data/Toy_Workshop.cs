@@ -17,9 +17,9 @@ namespace Xmasgame.Data
                 "Glittering magic fills the air, making everything feel alive.";
             Items = new List<Items>
                 {
-                    new Items(ItemID: 2, ItemName: "Christmas saws", IsMagical: true, description: "Perfekt för att cut off  Marcus head!")
+                    new Items(ItemID: 2, ItemName: "Christmas saws", IsMagical: true, description: "Perfect cut the tree!")
                 };
         }
-        public List<Items> Items { get; private set; }
+        
     }
 }

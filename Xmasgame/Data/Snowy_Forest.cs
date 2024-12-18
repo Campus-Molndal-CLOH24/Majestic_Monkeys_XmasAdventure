@@ -20,6 +20,6 @@ namespace Xmasgame.Data
                     new Items(ItemID: 3, ItemName: "snowflakes", IsMagical: true, description: "Perfekt för att drink.")
                 };
         }
-        public List<Items> Items { get; private set; }
+        
     }
 }

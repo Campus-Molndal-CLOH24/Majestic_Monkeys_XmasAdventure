@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Xmasgame.UI;
+using Xmasgame.Data;
 
 
 namespace Xmasgame.Logic
@@ -17,24 +19,48 @@ namespace Xmasgame.Logic
             gameState.PlayerName = Console.ReadLine();
             gameState.Reset();
             Console.WriteLine($"Welcome, {gameState.PlayerName}! Let’s start the adventure.");
-            ShowGameProgress(gameState);
+            GetRoomchoice(gameState);
+            SearchMagicBalls(gameState);
+            
         }
         public static void LoadGame(GameState gameState)
         {
             Console.WriteLine("Loading Game ......... ");
-             
         }
 
-        public static void GetRoomchoice(GameState gameState) 
+        public static void GetRoomchoice(GameState gameState)
         {
-            string[] rooms = { "Living Room", "Toy Workshop", "Snowy Forest" };
-            int chosenRoom = InputHandler.GetRoomchoice(rooms);
+            List<Rooms> rooms = new List<Rooms> 
+            {
+                new Living_room(),
+                new Toy_Workshop(),
+                new Snowy_Forest()
+            };
+            // Extract room names to pass to InputHandler
+            string[] roomsNames = rooms.Select(r => r.RoomsName).ToArray();
+            //call Inputhandle to get user choice by index 
+            int chosenRoom = InputHandler.GetRoomchoice(roomsNames);
+            //Acces the chosen room and show detail
+            Rooms Getrooms = rooms[chosenRoom];
+            Console.WriteLine($"\nYou are entering the {Getrooms.RoomsName}...");
+            Console.WriteLine(Getrooms.RoomsDescription);
 
-            Console.WriteLine($"You are entering the {rooms[chosenRoom]}...");
-            // add references methos from playes whrn plyers got into the rooms that found something they colud keep it like balls or cookiess
+            // Display items in the room (if any)
+            if (Getrooms.Items != null && Getrooms.Items.Any())
+            {
+                Console.WriteLine("You see the following items:");
+                foreach (var item in Getrooms.Items)
+                {
+                    Console.WriteLine($" {item.ItemName} - {item.Description}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("There are no items in this room.");
+            }
         }
         //playerName, int magicBallsFound, int totalMagicBalls, int lives, int attemptsLeft
-        public static void ShowGameProgress(GameState gameState) 
+        public static void ShowGameProgress(GameState gameState)
         {
             GameDisplay.ShowProgress(
                 gameState.PlayerName,
@@ -43,5 +69,56 @@ namespace Xmasgame.Logic
                 gameState.lives
                 );
         }
+        // search balls 
+        public static void SearchMagicBalls(GameState gameState)
+        {
+            Random random = new Random(); // call randon method
+            int result = random.Next(0, 101);//1-50
+            if (result <= 40)
+            {
+                gameState.MagicBallsFound++;
+                Console.WriteLine("You found a magic ball!");
+            }
+            else if (result <= 70)
+            {
+                Console.WriteLine("Oh Nooooo, Marcus has set a trap!");
+                EnconterMarcus(gameState); 
+            }
+            else
+            {
+                gameState.lives++;
+                Console.WriteLine("You get help from Elf !! , now you gain extra life");
+            }
+            if (gameState.MagicBallsFound >= gameState.totalMagicBalls)
+            {
+                Console.WriteLine("Congratulations! You've found all the magic balls and saved Christmas!");
+            }
+        }
+
+        //enconter The evil Marcus 
+        public static void EnconterMarcus(GameState gameState)
+        {
+            Console.WriteLine("MWAHAHAHA! Marcus challenges you with a riddle... ");
+            Console.WriteLine("What has to be broken before you can use it?");
+            string answer = Console.ReadLine()?.ToLower();
+
+            if (answer == "egg")
+            {
+                Console.WriteLine("Correct! You escape Marcus's trap.");
+            }
+            else
+            {
+                gameState.lives--;
+                Console.WriteLine("Wrong answer! You lose a life. Lives remaining: " + gameState.lives);
+
+                if (gameState.lives <= 0)
+                {
+                    Console.WriteLine("You have run out of lives. Game Over!");
+                    Environment.Exit(0); // exit loop when you are die!! 
+                }
+            }
+        }
+        
+
     }
 }

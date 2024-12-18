@@ -20,6 +20,6 @@ namespace Xmasgame.Data
                 };
         }
 
-        public List<Items> Items { get; private set; }
+        
     }
 }

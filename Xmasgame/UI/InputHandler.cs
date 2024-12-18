@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Xmasgame.UI
 {
-    public class InputHandler
+    public static class InputHandler
     {
         public static int GetRoomchoice(string[] rooms)
         {
             while (true)
             {
+
                 // display only list where player want to go 
                 Console.WriteLine("\nChoose a room to go : ");
                 for (int i = 0; i < rooms.Length; i++)
