@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Xmasgame.Data
 {
@@ -10,5 +11,22 @@ namespace Xmasgame.Data
     {
         public int id {get;set;}
         public string name { get; set; }
+        public List<Items> Inventory { get; private set; }
+
+        public Player(string name)
+        {
+            name = name;
+            Inventory = new List<Items>();
+        }
+
+        public bool AddItem(Items item)
+        {
+            if (Inventory.Count >= 8) // Du bestämmer själv maxgränsen
+            {
+                return false; // Inventory fullt!
+            }
+            Inventory.Add(item);
+            return true;
+        }
     }
 }
