@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Xmasgame.UI
 {
-    public class GameDisplay
+    // link to game state to uppdated variables
+    public static class GameDisplay
     {
-        public void ShowProgess(string playerName, int magicBallsFound, int totalMagicBalls, int lives, int attemptsLeft) 
+        public static void ShowProgress(string playerName, int magicBallsFound, int totalMagicBalls, int lives) 
         {
-            Console.WriteLine("\n=== Current Progress ===");
+            Console.WriteLine($"\n=== Current Progress  of {playerName}===");
             Console.WriteLine($"Magic Balls Found: {magicBallsFound}/{totalMagicBalls}");
             Console.WriteLine($"Lives Remaining: {lives}");
-            Console.WriteLine($"Attempts Left: {attemptsLeft}");
             Console.WriteLine("=========================\n");
         }
     }

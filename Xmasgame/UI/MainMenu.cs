@@ -40,7 +40,7 @@ namespace Xmasgame.UI
             Console.WriteLine("3. I Need Help !!!!!!!!! ");
             Console.WriteLine("4. Exit");
         }
-
+        //pass game state as parameter not DI naja 
         public static void HandleMainMenu(GameState gameState)
         {
             var running = true;
@@ -57,6 +57,7 @@ namespace Xmasgame.UI
                         break;
                     case "2":
                         CommandHandler.LoadGame(gameState);
+                        CommandHandler.ShowGameProgress(gameState);
                         break;
                     case "3":
                         ShowHelp();
