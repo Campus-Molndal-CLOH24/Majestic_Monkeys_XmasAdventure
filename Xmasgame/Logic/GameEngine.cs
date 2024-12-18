@@ -9,12 +9,15 @@ namespace Xmasgame.Logic
 {
     public class GameEngine
     {
+        private readonly GameState _gamestate = new GameState();
+        
+        
         public void Run() 
         {
-            bool runnning = true;
-            while (runnning) 
+            
+            while (true) 
             {
-                MainMenu.HandleMainMenu();
+                MainMenu.HandleMainMenu(_gamestate); // pass game state as parameter to use game state 
             }
         }
     }

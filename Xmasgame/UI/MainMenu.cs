@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xmasgame.Logic;
 
 
 namespace Xmasgame.UI
@@ -40,7 +41,7 @@ namespace Xmasgame.UI
             Console.WriteLine("4. Exit");
         }
 
-        public static void HandleMainMenu()
+        public static void HandleMainMenu(GameState gameState)
         {
             var running = true;
             while (running)
@@ -52,43 +53,28 @@ namespace Xmasgame.UI
                 switch (choice)
                 {
                     case "1":
-                        StartNewGame();
+                        CommandHandler.StartNewGame(gameState);
                         break;
                     case "2":
-                        LoadGame();
+                        CommandHandler.LoadGame(gameState);
                         break;
                     case "3":
                         ShowHelp();
                         break;
                     case "4":
                         Console.WriteLine("Thanks for playing! Goodbye!");
-                        running = false; //exit from the loop 
+                        Environment.Exit(0); //exit from the loop use running return false before but it did not work it, so user stuck on my game forever
                         break;
                     default:
                         Console.WriteLine("Hello --- Wrong choice!");
                         break;
                 }
-                Console.WriteLine("\nPress Enter to continue...");
-                Console.ReadLine();
+                if (running) // Only prompt for Enter if the loop will continue
+                {
+                    Console.WriteLine("\nPress Enter to continue...");
+                    Console.ReadLine();
+                }
             }
-        }
-
-        public static void StartNewGame() // create new game ? 
-        {
-            Console.WriteLine("Starting a new game .....");
-            Console.WriteLine("What is your name?");
-            string playerName = Console.ReadLine();
-            Console.WriteLine($"Welcome, {playerName}! Let’s start the adventure.");
-
-            string[] rooms = { "Living Room", "Toy Workshop", "Snowy Forest" };
-            int chosenRoom = InputHandler.GetRoomchoice(rooms);
-
-            Console.WriteLine($"You are entering the {rooms[chosenRoom]}...");
-            
-        }
-        public static void LoadGame() //progress ?? 
-        {
-            Console.WriteLine("Loading Game ......... ");
         }
         public static void ShowHelp()
         {
