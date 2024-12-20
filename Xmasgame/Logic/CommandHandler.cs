@@ -19,16 +19,15 @@ namespace Xmasgame.Logic
             gameState.PlayerName = Console.ReadLine();
             gameState.Reset();
             Console.WriteLine($"Welcome, {gameState.PlayerName}! Let’s start the adventure.");
-
-            // Call GetRoomchoice to let the player choose a room and starting to find balls 
-            GetRoomchoice(gameState);
-            SearchMagicBalls(gameState);
+            
+            PlayGame(gameState);
 
         }
         //load game method
         public static void LoadGame(GameState gameState)
         {
             Console.WriteLine("Resumimg your Game ......... ");
+            System.Console.WriteLine("Welcome back, " + gameState.PlayerName + "!");
             PlayGame(gameState);
 
         }
@@ -85,6 +84,7 @@ namespace Xmasgame.Logic
             // Display items in the room (if any)
             if (Getrooms.Items != null && Getrooms.Items.Any())
             {
+                System.Console.WriteLine();
                 Console.WriteLine("You see the following items:");
                 foreach (var item in Getrooms.Items)
                 {

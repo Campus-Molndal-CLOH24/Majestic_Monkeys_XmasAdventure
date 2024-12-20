@@ -9,17 +9,17 @@ namespace Xmasgame.Logic
     // set all before players starts game also add reset method to reset everytime when they create new game
     public class GameState
     {
-        public string PlayerName { get; set; }
+        public string? PlayerName { get; set; }
         public int MagicBallsFound { get; set; } = 0;
         public int lives { get; set; } = 3;
-        public int totalMagicBalls { get; set; } = 5;
-        public int attemptsLeft { get; set; } = 5;
+        public int totalMagicBalls { get; set; } = 3;
+        public int attemptsLeft { get; set; } = 10;
 
         public void Reset() 
         {
             MagicBallsFound = 0;
-            lives = 3;
-            totalMagicBalls = 5;
+            lives = 4;
+            totalMagicBalls = 3;
         } 
     }
 }
