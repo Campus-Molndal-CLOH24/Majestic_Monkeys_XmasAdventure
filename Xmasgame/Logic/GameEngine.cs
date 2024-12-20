@@ -17,7 +17,7 @@ namespace Xmasgame.Logic
             
             while (true) 
             {
-                MainMenu.HandleMainMenu(_gamestate); // pass game state as parameter to use game state and start game. s
+                MainMenu.HandleMainMenu(_gamestate); // pass game state as parameter to use game state and start game. 
             }
         }
     }

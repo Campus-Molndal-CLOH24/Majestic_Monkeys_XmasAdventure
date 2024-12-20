@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Xmasgame.Data
 {
-    public class Living_room : Rooms
+    public class Livingroom : Rooms
     {
-        public Living_room()
+        public Livingroom()
         {
             RoomsName = "Living room";
             RoomsDescription = "A cozy and warm room with a crackling fireplace. " +

@@ -10,7 +10,7 @@ using Xmasgame.Data;
 
 namespace Xmasgame.Logic
 {
-    public class CommandHandler
+    public static class CommandHandler
     {
         public static void StartNewGame(GameState gameState) // create new game ? 
         {
@@ -34,10 +34,10 @@ namespace Xmasgame.Logic
             {
                 new Living_room(),
                 new Toy_Workshop(),
-                new Snowy_Forest()
+                new SnowyForest()
             };
             // Extract room names to pass to InputHandler
-            string[] roomsNames = rooms.Select(r => r.RoomsName).ToArray();
+            string[] roomsNames = rooms.Select(r => r.RoomsName!).ToArray();
             //call Inputhandle to get user choice by index 
             int chosenRoom = InputHandler.GetRoomchoice(roomsNames);
             //Acces the chosen room and show detail

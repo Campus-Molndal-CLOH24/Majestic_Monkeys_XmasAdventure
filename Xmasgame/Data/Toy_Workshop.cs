@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Xmasgame.Data
 {
-    public class Toy_Workshop : Rooms
+    public class ToyWorkshop : Rooms
     {
-        public Toy_Workshop() 
+        public ToyWorkshop() 
         {
             RoomsName = "Toy Workshop";
             RoomsDescription = "The magical heart of Santa's operations. " +

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Xmasgame.Data
 {
-    public class Snowy_Forest : Rooms
+    public class SnowyForest : Rooms
     {
-        public Snowy_Forest() 
+        public SnowyForest() 
         {
             RoomsName = "Snowy Forest";
             RoomsDescription = "You step into a peaceful, snow-covered forest. " +
