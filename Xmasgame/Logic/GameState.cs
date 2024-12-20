@@ -13,6 +13,7 @@ namespace Xmasgame.Logic
         public int MagicBallsFound { get; set; } = 0;
         public int lives { get; set; } = 3;
         public int totalMagicBalls { get; set; } = 5;
+        public int attemptsLeft { get; set; } = 5;
 
         public void Reset() 
         {
