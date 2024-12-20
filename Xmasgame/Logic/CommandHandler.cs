@@ -19,21 +19,58 @@ namespace Xmasgame.Logic
             gameState.PlayerName = Console.ReadLine();
             gameState.Reset();
             Console.WriteLine($"Welcome, {gameState.PlayerName}! Let’s start the adventure.");
+
+            // Call GetRoomchoice to let the player choose a room and starting to find balls 
             GetRoomchoice(gameState);
             SearchMagicBalls(gameState);
-            
+
         }
+        //load game method
         public static void LoadGame(GameState gameState)
         {
-            Console.WriteLine("Loading Game ......... ");
+            Console.WriteLine("Resumimg your Game ......... ");
+            PlayGame(gameState);
+
         }
+        // play game method
+        public static void PlayGame(GameState gameState)
+        {
+            while (gameState.attemptsLeft > 0 && gameState.lives > 0)
+            {
+                GetRoomchoice(gameState);
+                SearchMagicBalls(gameState);
+                gameState.attemptsLeft--;
+
+                Console.WriteLine($"\nAttempts Left: {gameState.attemptsLeft}, Lives: {gameState.lives}");
+
+                if (gameState.MagicBallsFound >= gameState.totalMagicBalls)
+                {
+                    Console.WriteLine("Congratulations! You've saved Christmas!");
+                    break;
+                }
+            }
+
+            if (gameState.attemptsLeft <= 0)
+            {
+                Console.WriteLine("You're out of attempts. Game Over!");
+            }
+
+        }
+        // save game method
+        public static void SaveGame(GameState gameState)
+        {
+            Console.WriteLine("Saving Game ......... ");
+        }
+
+
+
 
         public static void GetRoomchoice(GameState gameState)
         {
-            List<Rooms> rooms = new List<Rooms> 
+            List<Rooms> rooms = new List<Rooms>
             {
-                new Living_room(),
-                new Toy_Workshop(),
+                new Livingroom(),
+                new ToyWorkshop(),
                 new SnowyForest()
             };
             // Extract room names to pass to InputHandler
@@ -82,7 +119,7 @@ namespace Xmasgame.Logic
             else if (result <= 70)
             {
                 Console.WriteLine("Oh Nooooo, Marcus has set a trap!");
-                EnconterMarcus(gameState); 
+                EnconterMarcus(gameState);
             }
             else
             {
@@ -118,7 +155,7 @@ namespace Xmasgame.Logic
                 }
             }
         }
-        
+
 
     }
 }
