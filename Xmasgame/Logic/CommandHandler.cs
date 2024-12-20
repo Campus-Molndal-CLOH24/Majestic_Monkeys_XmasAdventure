@@ -19,7 +19,7 @@ namespace Xmasgame.Logic
             gameState.PlayerName = Console.ReadLine();
             gameState.Reset();
             Console.WriteLine($"Welcome, {gameState.PlayerName}! Let’s start the adventure.");
-            
+
             PlayGame(gameState);
 
         }
@@ -36,11 +36,32 @@ namespace Xmasgame.Logic
         {
             while (gameState.attemptsLeft > 0 && gameState.lives > 0)
             {
+
                 GetRoomchoice(gameState);
                 SearchMagicBalls(gameState);
                 gameState.attemptsLeft--;
 
                 Console.WriteLine($"\nAttempts Left: {gameState.attemptsLeft}, Lives: {gameState.lives}");
+
+                Console.WriteLine("\nDo you want to (C)ontinue, (S)ave, or (Q)uit?");
+                string choice = Console.ReadLine()?.ToUpper();
+
+                if (choice == "S")
+                {
+                    SaveGame(gameState);
+                    Console.WriteLine("Game saved. Do you want to (C)ontinue or (Q)uit?");
+                    choice = Console.ReadLine()?.ToUpper();
+                    if (choice == "Q")
+                    {
+                        Console.WriteLine("Quitting game. See you next time!");
+                        break;
+                    }
+                }
+                else if (choice == "Q")
+                {
+                    Console.WriteLine("Quitting game. See you next time!");
+                    break;
+                }
 
                 if (gameState.MagicBallsFound >= gameState.totalMagicBalls)
                 {
@@ -60,9 +81,6 @@ namespace Xmasgame.Logic
         {
             Console.WriteLine("Saving Game ......... ");
         }
-
-
-
 
         public static void GetRoomchoice(GameState gameState)
         {
@@ -141,6 +159,7 @@ namespace Xmasgame.Logic
 
             if (answer == "egg")
             {
+
                 Console.WriteLine("Correct! You escape Marcus's trap.");
             }
             else
