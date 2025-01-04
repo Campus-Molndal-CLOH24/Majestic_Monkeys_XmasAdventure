@@ -15,7 +15,7 @@ namespace Xmasgame.Data
 
         public Player(string name)
         {
-            name = name;
+            this.name = name;
             Inventory = new List<Items>();
         }
 
