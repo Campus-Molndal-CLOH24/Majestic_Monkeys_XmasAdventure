@@ -25,7 +25,7 @@ namespace Xmasgame.Tests
         [DataRow(null)]
         public void Player_ShouldInitializeWithGivenNameAndEmptyInventory(string expectedName)
         {
-            ;
+            
             //act
             var player = new Player(expectedName);
 
