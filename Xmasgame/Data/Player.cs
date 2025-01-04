@@ -21,6 +21,10 @@ namespace Xmasgame.Data
 
         public bool AddItem(Items item)
         {
+            if (item == null)
+            {
+                return false;
+            }
             if (Inventory.Count >= 8) // Du bestämmer själv maxgränsen
             {
                 return false; // Inventory fullt!
