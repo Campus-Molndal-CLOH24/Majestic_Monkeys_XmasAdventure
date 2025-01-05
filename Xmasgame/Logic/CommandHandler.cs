@@ -37,29 +37,14 @@ namespace Xmasgame.Logic
             while (gameState.attemptsLeft > 0 && gameState.lives > 0)
             {
 
-                GetRoomchoice(gameState);
-                SearchMagicBalls(gameState);
+                RoomHandler.HandlerRoomChoice(gameState);
+                MagicballHandler.SearchMagicBalls(gameState);
                 gameState.attemptsLeft--;
 
                 Console.WriteLine($"\nAttempts Left: {gameState.attemptsLeft}, Lives: {gameState.lives}");
 
-                Console.WriteLine("\nDo you want to (C)ontinue, (S)ave, or (Q)uit?");
-                string choice = Console.ReadLine()?.ToUpper();
-
-                if (choice == "S")
+                if (!GameActionHandler.HandleSaveOrQuit(gameState))
                 {
-                    SaveGame(gameState);
-                    Console.WriteLine("Game saved. Do you want to (C)ontinue or (Q)uit?");
-                    choice = Console.ReadLine()?.ToUpper();
-                    if (choice == "Q")
-                    {
-                        Console.WriteLine("Quitting game. See you next time!");
-                        break;
-                    }
-                }
-                else if (choice == "Q")
-                {
-                    Console.WriteLine("Quitting game. See you next time!");
                     break;
                 }
 
@@ -69,50 +54,15 @@ namespace Xmasgame.Logic
                     break;
                 }
             }
-
             if (gameState.attemptsLeft <= 0)
             {
                 Console.WriteLine("You're out of attempts. Game Over!");
             }
-
         }
         // save game method
         public static void SaveGame(GameState gameState)
         {
             Console.WriteLine("Saving Game ......... ");
-        }
-
-        public static void GetRoomchoice(GameState gameState)
-        {
-            List<Rooms> rooms = new List<Rooms>
-            {
-                new Livingroom(),
-                new ToyWorkshop(),
-                new SnowyForest()
-            };
-            // Extract room names to pass to InputHandler
-            string[] roomsNames = rooms.Select(r => r.RoomsName!).ToArray();
-            //call Inputhandle to get user choice by index 
-            int chosenRoom = InputHandler.GetRoomchoice(roomsNames, Console.ReadLine);
-            //Acces the chosen room and show detail
-            Rooms Getrooms = rooms[chosenRoom];
-            Console.WriteLine($"\nYou are entering the {Getrooms.RoomsName}...");
-            Console.WriteLine(Getrooms.RoomsDescription);
-
-            // Display items in the room (if any)
-            if (Getrooms.Items != null && Getrooms.Items.Any())
-            {
-                System.Console.WriteLine();
-                Console.WriteLine("You see the following items:");
-                foreach (var item in Getrooms.Items)
-                {
-                    Console.WriteLine($" {item.ItemName} - {item.Description}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("There are no items in this room.");
-            }
         }
         //playerName, int magicBallsFound, int totalMagicBalls, int lives, int attemptsLeft
         public static void ShowGameProgress(GameState gameState)
@@ -124,57 +74,5 @@ namespace Xmasgame.Logic
                 gameState.lives
                 );
         }
-        // search balls 
-        public static void SearchMagicBalls(GameState gameState)
-        {
-            Random random = new Random(); // call randon method
-            int result = random.Next(0, 101);//1-50
-            if (result <= 40)
-            {
-                gameState.MagicBallsFound++;
-                Console.WriteLine("You found a magic ball!");
-            }
-            else if (result <= 70)
-            {
-                Console.WriteLine("Oh Nooooo, Marcus has set a trap!");
-                EnconterMarcus(gameState);
-            }
-            else
-            {
-                gameState.lives++;
-                Console.WriteLine("You get help from Elf !! , now you gain extra life");
-            }
-            if (gameState.MagicBallsFound >= gameState.totalMagicBalls)
-            {
-                Console.WriteLine("Congratulations! You've found all the magic balls and saved Christmas!");
-            }
-        }
-
-        //enconter The evil Marcus 
-        public static void EnconterMarcus(GameState gameState)
-        {
-            Console.WriteLine("MWAHAHAHA! Marcus challenges you with a riddle... ");
-            Console.WriteLine("What has to be broken before you can use it?");
-            string answer = Console.ReadLine()?.ToLower();
-
-            if (answer == "egg")
-            {
-
-                Console.WriteLine("Correct! You escape Marcus's trap.");
-            }
-            else
-            {
-                gameState.lives--;
-                Console.WriteLine("Wrong answer! You lose a life. Lives remaining: " + gameState.lives);
-
-                if (gameState.lives <= 0)
-                {
-                    Console.WriteLine("You have run out of lives. Game Over!");
-                    Environment.Exit(0); // exit loop when you are die!! 
-                }
-            }
-        }
-
-
     }
 }
