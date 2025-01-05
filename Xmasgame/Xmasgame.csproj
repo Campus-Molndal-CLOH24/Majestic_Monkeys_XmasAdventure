@@ -13,4 +13,9 @@
     <None Remove="santa\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>

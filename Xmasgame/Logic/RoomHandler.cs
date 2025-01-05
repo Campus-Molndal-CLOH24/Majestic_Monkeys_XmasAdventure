@@ -8,7 +8,7 @@ using Xmasgame.UI;
 
 namespace Xmasgame.Logic
 {
-    //the room-related logic (room choice, entering, showing items)
+    //the room-related logic (room choice, entering, showing items) it will refer to command handler to start new game and load game
     public static class RoomHandler
     {
         public static void HandlerRoomChoice(GameState gameState) 
