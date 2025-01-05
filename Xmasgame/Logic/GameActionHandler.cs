@@ -10,6 +10,12 @@ namespace Xmasgame.Logic
 {
     public  class GameActionHandler : IGameActionHandler
     {
+        private readonly Action<GameState> _saveGame;
+
+        public GameActionHandler(Action<GameState> saveGame)
+        {
+            _saveGame = saveGame;
+        }
         public  bool HandleSaveOrQuit(GameState gameState)
         {
             Console.WriteLine("\nDo you want to (C)ontinue, (S)ave, or (Q)uit?");
@@ -17,7 +23,7 @@ namespace Xmasgame.Logic
 
             if (choice == "S")
             {
-                CommandHandler.SaveGame(gameState); //just temporary 
+                _saveGame(gameState); //just temporary 
                 Console.WriteLine("Game saved. Do you want to (C)ontinue or (Q)uit?");
                 choice = Console.ReadLine()?.ToUpper();
             }

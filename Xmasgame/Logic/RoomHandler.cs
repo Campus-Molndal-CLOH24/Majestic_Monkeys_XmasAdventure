@@ -13,6 +13,12 @@ namespace Xmasgame.Logic
     //the room-related logic (room choice, entering, showing items) it will refer to command handler to start new game and load game
     public  class RoomHandler : IRoomhandler
     {
+        private readonly IInputhandler _inputHandler;
+        public RoomHandler(IInputhandler inputHandler)
+        {
+            _inputHandler = inputHandler;
+        }
+        
         public void HandlerRoomChoice(GameState gameState) 
         {
             List<Rooms> rooms = new List<Rooms>
@@ -24,7 +30,7 @@ namespace Xmasgame.Logic
             // Extract room names to pass to InputHandler
             string[] roomsNames = rooms.Select(r => r.RoomsName!).ToArray();
             //call Inputhandle to get user choice by index 
-            int chosenRoom = InputHandler.GetRoomchoice(roomsNames, Console.ReadLine);
+            int chosenRoom = _inputHandler.GetRoomchoice(roomsNames, Console.ReadLine);
             //Acces the chosen room and show detail
             Rooms Getrooms = rooms[chosenRoom];
             Console.WriteLine($"\nYou are entering the {Getrooms.RoomsName}...");

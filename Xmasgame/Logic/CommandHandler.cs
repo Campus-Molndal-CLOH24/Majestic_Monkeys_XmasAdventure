@@ -31,11 +31,12 @@ namespace Xmasgame.Logic
             Console.WriteLine("Starting a new game .....");
             Console.WriteLine("What is your name?");
             gameState.PlayerName = Console.ReadLine();
+            gameState.PlayerId = Guid.NewGuid().ToString();
             gameState.Reset();
             repository.SaveGame(gameState);
             Console.WriteLine($"Welcome, {gameState.PlayerName}! Let’s start the adventure.");
 
-            //PlayGame(gameState);
+            PlayGame(gameState, repository);
 
         }
         //load game method
@@ -46,6 +47,11 @@ namespace Xmasgame.Logic
             try
             {
                 var loadedGame = repository.LoadGame(playerId);
+                if (loadedGame == null)
+                {
+                    Console.WriteLine("No saved game found for the given Player Id.");
+                    return;
+                }
                 gameState.PlayerName = loadedGame.PlayerName;
                 gameState.MagicBallsFound = loadedGame.MagicBallsFound;
                 gameState.lives = loadedGame.lives;
@@ -56,11 +62,11 @@ namespace Xmasgame.Logic
             {
                 Console.WriteLine($"Error loading game: {ex.Message}");
             }
-            //PlayGame(gameState);
+            PlayGame(gameState, repository);
 
         }
         // play game method
-        public  void PlayGame(GameState gameState, IgameRespository respository)
+        public  void PlayGame(GameState gameState, IgameRespository repository)
         {
             while (gameState.attemptsLeft > 0 && gameState.lives > 0)
             {
@@ -73,24 +79,28 @@ namespace Xmasgame.Logic
 
                 if (!_gameActionHandler.HandleSaveOrQuit(gameState))
                 {
+                    repository.SaveGame(gameState);
                     break;
                 }
 
                 if (gameState.MagicBallsFound >= gameState.totalMagicBalls)
                 {
                     Console.WriteLine("Congratulations! You've saved Christmas!");
+                    repository.SaveGame(gameState);
                     break;
                 }
             }
             if (gameState.attemptsLeft <= 0)
             {
                 Console.WriteLine("You're out of attempts. Game Over!");
+                repository.SaveGame(gameState);
             }
         }
         // save game method
         public void SaveGame(GameState gameState)
         {
-            Console.WriteLine("Saving Game ......... ");
+            SaveGame(gameState); // Example save logic
+            Console.WriteLine("Game saved!");
         }
     }
 }

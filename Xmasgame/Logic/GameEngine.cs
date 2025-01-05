@@ -19,31 +19,32 @@ namespace Xmasgame.Logic
         private readonly IMagicBallHandler _magicBallHandler;
         private readonly IGameActionHandler _gameActionHandler;
         private readonly IgameRespository _repository;
-        private readonly CommandHandler _commandHandler;
+        //private readonly CommandHandler _commandHandler;
         private readonly MainMenu _mainmenu;
 
         public GameEngine(GameState gameState, IGameDisplay display, IInputhandler inputHandler, IRoomhandler roomHandler, IMagicBallHandler magicBallHandler, IGameActionHandler gameActionHandler, IgameRespository repository)
         {
-            _gameState = gameState;
-            _display = display;
-            _inputHandler = inputHandler;
-            _roomHandler = roomHandler;
-            _magicBallHandler = magicBallHandler;
-            _gameActionHandler = gameActionHandler;
-            _repository = repository;
+            this._gameState = gameState;
+            this._display = display;
+            this._inputHandler = inputHandler;
+            this._roomHandler = roomHandler;
+            this._magicBallHandler = magicBallHandler;
+            this._gameActionHandler = gameActionHandler;
+            this._repository = repository;
 
-            _gameState = new GameState();
-            _mainmenu = new MainMenu(display, inputHandler, repository);
-            _commandHandler = new CommandHandler(_roomHandler, _magicBallHandler, _gameActionHandler); //use depency injection to pass the handler to command handler
+            var _commandHandler = new CommandHandler(_roomHandler, _magicBallHandler, _gameActionHandler); //use depency injection to pass the handler to command handler
+            _mainmenu = new MainMenu(display, inputHandler, repository, _commandHandler);
+           
         }
 
         public void Run() 
         {
+                // Game loop
+                while (true)
+                {
+                    _mainmenu.HandleMainMenu(_gameState);
+                }
             
-            while (true) 
-            {
-                _mainmenu.HandleMainMenu(_gameState); // pass game state as parameter to use game state and start game. 
-            }
         }
     }
 }
