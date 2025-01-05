@@ -6,13 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Xmasgame.UI;
 using Xmasgame.Data;
+using Xmasgame.Models;
+using Xmasgame.Logic;
+using Xmasgame.Interfaces;
 
 
 namespace Xmasgame.Logic
 {
-    public static class CommandHandler
+    public  class CommandHandler
     {
-        public static void StartNewGame(GameState gameState, IgameRespository repository) // create new game  and save it
+        private readonly IRoomhandler _roomhandler;
+        private readonly IMagicBallHandler _magicballhandler;
+        private readonly IGameActionHandler _gameActionHandler;
+        public CommandHandler(IRoomhandler roomhandler, IMagicBallHandler magicballhandler, IGameActionHandler gameActionHandler)
+        {
+            _roomhandler = roomhandler;
+            _magicballhandler = magicballhandler;
+            _gameActionHandler = gameActionHandler;
+        }
+        
+        // start new game method
+        public void StartNewGame(GameState gameState, IgameRespository repository) // create new game  and save it
         {
             Console.WriteLine("Starting a new game .....");
             Console.WriteLine("What is your name?");
@@ -25,7 +39,7 @@ namespace Xmasgame.Logic
 
         }
         //load game method
-        public static void LoadGame(GameState gameState, IgameRespository repository)
+        public void LoadGame(GameState gameState, IgameRespository repository)
         {
             Console.WriteLine("Enter your PLayer Id to load your saved game:");
             string playerId = Console.ReadLine();
@@ -46,18 +60,18 @@ namespace Xmasgame.Logic
 
         }
         // play game method
-        public static void PlayGame(GameState gameState)
+        public  void PlayGame(GameState gameState, IgameRespository respository)
         {
             while (gameState.attemptsLeft > 0 && gameState.lives > 0)
             {
 
-                RoomHandler.HandlerRoomChoice(gameState);
-                MagicballHandler.SearchMagicBalls(gameState);
+                _roomhandler.HandlerRoomChoice(gameState);
+                _magicballhandler.SearchMagicBalls(gameState);
                 gameState.attemptsLeft--;
 
                 Console.WriteLine($"\nAttempts Left: {gameState.attemptsLeft}, Lives: {gameState.lives}");
 
-                if (!GameActionHandler.HandleSaveOrQuit(gameState))
+                if (!_gameActionHandler.HandleSaveOrQuit(gameState))
                 {
                     break;
                 }
@@ -74,20 +88,9 @@ namespace Xmasgame.Logic
             }
         }
         // save game method
-        public static void SaveGame(GameState gameState)
+        public void SaveGame(GameState gameState)
         {
             Console.WriteLine("Saving Game ......... ");
-        }
-
-        //playerName, int magicBallsFound, int totalMagicBalls, int lives, int attemptsLeft
-        public static void ShowGameProgress(GameState gameState)
-        {
-            GameDisplay.ShowProgress(
-                gameState.PlayerName,
-                gameState.MagicBallsFound,
-                gameState.totalMagicBalls,
-                gameState.lives
-                );
         }
     }
 }

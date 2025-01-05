@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xmasgame.Interfaces;
 
 namespace Xmasgame.UI
 {
-    public static class InputHandler
+    public  class InputHandler : IInputhandler
     {
-        public static int GetRoomchoice(string[] rooms, Func<string> inputProvider)
+        public int GetRoomchoice(string[] rooms, Func<string> inputProvider)
         {
             while (true)
             {

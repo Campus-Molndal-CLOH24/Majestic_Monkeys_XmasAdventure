@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xmasgame.Models;
+using Xmasgame.Interfaces;
 
 namespace Xmasgame.Logic
 {
-    public static  class MagicballHandler
+    public  class MagicballHandler : IMagicBallHandler
     {
-        public static void SearchMagicBalls(GameState gameState)
+        public  void SearchMagicBalls(GameState gameState)
         {
             Random random = new Random(); // call randon method
             int result = random.Next(0, 101);

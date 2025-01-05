@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Xmasgame.Data;
 using Xmasgame.Models;
 using Xmasgame.UI;
+using Xmasgame.Interfaces;
 
 namespace Xmasgame.Logic
 {
     //the room-related logic (room choice, entering, showing items) it will refer to command handler to start new game and load game
-    public static class RoomHandler
+    public  class RoomHandler : IRoomhandler
     {
-        public static void HandlerRoomChoice(GameState gameState) 
+        public void HandlerRoomChoice(GameState gameState) 
         {
             List<Rooms> rooms = new List<Rooms>
             {

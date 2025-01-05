@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xmasgame.Models;
+using Xmasgame.Interfaces;
 
 namespace Xmasgame.Logic
 {
-    public static class GameActionHandler
+    public  class GameActionHandler : IGameActionHandler
     {
-        public static bool HandleSaveOrQuit(GameState gameState)
+        public  bool HandleSaveOrQuit(GameState gameState)
         {
             Console.WriteLine("\nDo you want to (C)ontinue, (S)ave, or (Q)uit?");
             string choice = Console.ReadLine()?.ToUpper();
