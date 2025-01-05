@@ -31,7 +31,7 @@ namespace Xmasgame.Logic
             Console.WriteLine("Starting a new game .....");
             Console.WriteLine("What is your name?");
             gameState.PlayerName = Console.ReadLine();
-            gameState.PlayerId = Guid.NewGuid().ToString();
+            gameState.PlayerId = Guid.NewGuid().ToString().Substring(0,4);
             gameState.Reset();
             repository.SaveGame(gameState);
             Console.WriteLine($"Welcome, {gameState.PlayerName}! Let’s start the adventure.");
@@ -42,21 +42,26 @@ namespace Xmasgame.Logic
         //load game method
         public void LoadGame(GameState gameState, IgameRespository repository)
         {
-            Console.WriteLine("Enter your PLayer Id to load your saved game:");
-            string playerId = Console.ReadLine();
+            Console.WriteLine("Enter your  Name to load your saved game:");
+            string PlayerName = Console.ReadLine();
             try
             {
-                var loadedGame = repository.LoadGame(playerId);
-                if (loadedGame == null)
+                var loadedGame = repository.LoadGame(PlayerName);
+                if (loadedGame != null)
                 {
-                    Console.WriteLine("No saved game found for the given Player Id.");
+                    Console.WriteLine($"Game loaded successfully for player: {loadedGame.PlayerName}");
+                    gameState.PlayerId = loadedGame.PlayerId;
+                    gameState.PlayerName = loadedGame.PlayerName;
+                    gameState.MagicBallsFound = loadedGame.MagicBallsFound;
+                    gameState.lives = loadedGame.lives;
+                    gameState.attemptsLeft = loadedGame.attemptsLeft;
+                    Console.WriteLine("Game loaded successfully.");
+                }
+                else
+                {
+                    Console.WriteLine($"No saved game found for player name: {PlayerName}");
                     return;
                 }
-                gameState.PlayerName = loadedGame.PlayerName;
-                gameState.MagicBallsFound = loadedGame.MagicBallsFound;
-                gameState.lives = loadedGame.lives;
-                gameState.attemptsLeft = loadedGame.attemptsLeft;
-                Console.WriteLine("Game loaded successfully.");
             }
             catch (Exception ex)
             {

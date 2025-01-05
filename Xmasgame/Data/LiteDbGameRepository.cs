@@ -16,21 +16,21 @@ namespace Xmasgame.Data
         {
             using (var db = new LiteDatabase(_databasePath))
             {
-                var gameCollection = db.GetCollection<GameState>("gameState");
+                var gameCollection = db.GetCollection<GameState>("savedGames");
                 //ensure there is only one GameState is unige by player id
-                var existingGame = gameCollection.FindOne(g => g.PlayerId == gameState.PlayerId);
-                
-
+                var existingGame = gameCollection.FindOne(g => g.PlayerName == gameState.PlayerName);
                 gameCollection.Upsert(gameState); //insert or update
+
             }
+            Console.WriteLine($"Game saved successfully for player: {gameState.PlayerName}, ID: {gameState.PlayerId}");
         }
 
-        public GameState LoadGame(string PlayerId)
+        public GameState LoadGame(string PlayerName)
         {
             using (var db = new LiteDatabase(_databasePath))
             {
-                var gameCollection = db.GetCollection<GameState>("gameState");
-                var gameState = gameCollection.FindOne(g => g.PlayerId == PlayerId);
+                var gameCollection = db.GetCollection<GameState>("savedGames");
+                var gameState = gameCollection.FindOne(g => g.PlayerName == PlayerName);
                 return gameState;
             }
         }
@@ -39,7 +39,7 @@ namespace Xmasgame.Data
         {
             using (var db = new LiteDatabase(_databasePath))
             {
-                var gameCollection = db.GetCollection<GameState>("gameState");
+                var gameCollection = db.GetCollection<GameState>("savedGames");
                 return gameCollection.FindAll().ToList();
             }
         }

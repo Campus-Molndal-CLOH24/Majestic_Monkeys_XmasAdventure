@@ -55,7 +55,8 @@ namespace Xmasgame.UI
             Console.WriteLine("1. Start New Game");
             Console.WriteLine("2. Load Game");
             Console.WriteLine("3. I Need Help !!!!!!!!! ");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("4. View all saved games");
+            Console.WriteLine("5. Exit");
         }
         //pass game state as parameter not DI naja 
         public void HandleMainMenu(GameState gamestate)
@@ -80,6 +81,9 @@ namespace Xmasgame.UI
                         ShowHelp(_gamedisplay);
                         break;
                     case "4":
+                        ViewSavedGames();
+                        break;
+                    case "5":
                         Console.WriteLine("Thanks for playing! Goodbye!");
                         Environment.Exit(0); //exit from the loop use running return false before but it did not work it, so user stuck on my game forever
                         break;
@@ -92,6 +96,46 @@ namespace Xmasgame.UI
                     Console.WriteLine("\nPress Enter to continue...");
                     Console.ReadLine();
                 }
+            }
+        }
+        private void LoadGameMenu(GameState gameState)
+        {
+            var savedGames = _repository.GetAllSaveGames().ToList();
+
+            if (!savedGames.Any())
+            {
+                _gamedisplay.ShowMessage("No saved games found.");
+                return;
+            }
+
+            _gamedisplay.ShowMessage("Saved Games:");
+            for (int i = 0; i < savedGames.Count; i++)
+            {
+                _gamedisplay.ShowMessage($"{i + 1}. Player: {savedGames[i].PlayerName}, Last Progress: {savedGames[i].MagicBallsFound}");
+            }
+
+            var choice = _inputHandler.GetRoomchoice(
+                savedGames.Select((g, index) => $"Load Save {index + 1}").ToArray(), ()=>
+                "Select a saved game to load:");
+
+            var selectedGame = savedGames[choice];
+            
+            _gamedisplay.ShowMessage($"Loaded save for player {selectedGame.PlayerName}.");
+        }
+        private void ViewSavedGames()
+        {
+            var savedGames = _repository.GetAllSaveGames();
+
+            if (!savedGames.Any())
+            {
+                _gamedisplay.ShowMessage("No saved games found.");
+                return;
+            }
+
+            _gamedisplay.ShowMessage("Saved Games:");
+            foreach (var game in savedGames)
+            {
+                _gamedisplay.ShowMessage($"Player: {game.PlayerName}, Progress: {game.MagicBallsFound} Magic Balls Found, Lives: {game.lives}");
             }
         }
         private void ShowHelp(IGameDisplay gamedisplay)
