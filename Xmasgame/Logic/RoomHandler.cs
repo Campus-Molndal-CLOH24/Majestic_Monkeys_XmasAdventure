@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xmasgame.Data;
+using Xmasgame.Models;
 using Xmasgame.UI;
 
 namespace Xmasgame.Logic

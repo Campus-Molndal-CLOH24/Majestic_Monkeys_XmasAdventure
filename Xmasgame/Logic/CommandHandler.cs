@@ -27,11 +27,11 @@ namespace Xmasgame.Logic
         //load game method
         public static void LoadGame(GameState gameState, IgameRespository repository)
         {
-            Console.WriteLine("Resumimg your Game ......... ");
-            System.Console.WriteLine("Welcome back, " + gameState.PlayerName + "!");
+            Console.WriteLine("Enter your PLayer Id to load your saved game:");
+            string playerId = Console.ReadLine();
             try
             {
-                GameState loadedGame = repository.LoadGame();
+                var loadedGame = repository.LoadGame(playerId);
                 gameState.PlayerName = loadedGame.PlayerName;
                 gameState.MagicBallsFound = loadedGame.MagicBallsFound;
                 gameState.lives = loadedGame.lives;
@@ -42,7 +42,7 @@ namespace Xmasgame.Logic
             {
                 Console.WriteLine($"Error loading game: {ex.Message}");
             }
-            PlayGame(gameState);
+            //PlayGame(gameState);
 
         }
         // play game method
