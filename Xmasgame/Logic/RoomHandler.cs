@@ -19,7 +19,7 @@ namespace Xmasgame.Logic
             _inputHandler = inputHandler;
         }
         
-        public void HandlerRoomChoice(GameState gameState) 
+        public void HandlerRoomChoice(GameState gameState)
         {
             List<Rooms> rooms = new List<Rooms>
             {
@@ -29,9 +29,25 @@ namespace Xmasgame.Logic
             };
             // Extract room names to pass to InputHandler
             string[] roomsNames = rooms.Select(r => r.RoomsName!).ToArray();
-            //call Inputhandle to get user choice by index 
-            int chosenRoom = _inputHandler.GetRoomchoice(roomsNames, Console.ReadLine);
-            //Acces the chosen room and show detail
+
+            int chosenRoom;
+            while (true)
+            {
+                // Call InputHandler to get user choice by index
+                chosenRoom = _inputHandler.GetRoomchoice(roomsNames, Console.ReadLine);
+
+                // Validate the chosen room index
+                if (chosenRoom >= 0 && chosenRoom < rooms.Count)
+                {
+                    break; // Exit the loop if the choice is valid
+                }
+                else
+                {
+                    Console.WriteLine("Invalid room choice. Please try again.");
+                }
+            }
+
+            // Access the chosen room and show details
             Rooms Getrooms = rooms[chosenRoom];
             Console.WriteLine($"\nYou are entering the {Getrooms.RoomsName}...");
             Console.WriteLine(Getrooms.RoomsDescription);
@@ -39,7 +55,7 @@ namespace Xmasgame.Logic
             // Display items in the room (if any)
             if (Getrooms.Items != null && Getrooms.Items.Any())
             {
-                System.Console.WriteLine();
+                Console.WriteLine();
                 Console.WriteLine("You see the following items:");
                 foreach (var item in Getrooms.Items)
                 {

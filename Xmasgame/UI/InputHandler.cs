@@ -29,7 +29,10 @@ namespace Xmasgame.UI
                     Console.WriteLine($"You chose option {roomChoice}");
                     return roomChoice - 1; // Convert to zero-based index
                 }
-                Console.WriteLine("Invalid input. Please try again.");
+                else
+                {
+                    return -1;
+                }
             }
         }
     }
