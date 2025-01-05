@@ -9,7 +9,7 @@ namespace Xmasgame.Data
 {
     public class Player
     {
-        public int id {get;set;}
+         
         public string name { get; set; }
         public List<Items> Inventory { get; private set; }
 

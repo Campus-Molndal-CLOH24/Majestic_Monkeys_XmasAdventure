@@ -10,6 +10,7 @@ namespace Xmasgame.Data
     public interface IgameRespository
     {
         void SaveGame(GameState gameState);
-        GameState LoadGame();
+        GameState LoadGame(string PlayerId);
+        IEnumerable<GameState> GetAllSaveGames(); // retrive all save game
     }
 }

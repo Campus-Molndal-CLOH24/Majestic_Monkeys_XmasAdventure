@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xmasgame.Logic;
+using Xmasgame.Data;
 
 
 namespace Xmasgame.UI
@@ -41,7 +42,7 @@ namespace Xmasgame.UI
             Console.WriteLine("4. Exit");
         }
         //pass game state as parameter not DI naja 
-        public static void HandleMainMenu(GameState gameState)
+        public static void HandleMainMenu(GameState gameState, IgameRespository repository)
         {
             var running = true;
             while (running)
@@ -53,10 +54,10 @@ namespace Xmasgame.UI
                 switch (choice)
                 {
                     case "1":
-                        CommandHandler.StartNewGame(gameState);
+                        CommandHandler.StartNewGame(gameState, repository);
                         break;
                     case "2":
-                        CommandHandler.LoadGame(gameState);
+                        CommandHandler.LoadGame(gameState, repository);
                         CommandHandler.ShowGameProgress(gameState);
                         break;
                     case "3":

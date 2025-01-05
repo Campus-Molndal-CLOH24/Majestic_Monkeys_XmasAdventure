@@ -17,18 +17,30 @@ namespace Xmasgame.Data
             using (var db = new LiteDatabase(_databasePath))
             {
                 var gameCollection = db.GetCollection<GameState>("gameState");
-                //ensure there is only one GameState in the database (overwrite)
-                gameCollection.DeleteAll();
-                gameCollection.Insert(gameState);
+                //ensure there is only one GameState is unige by player id
+                var existingGame = gameCollection.FindOne(g => g.PlayerId == gameState.PlayerId);
+                
+
+                gameCollection.Upsert(gameState); //insert or update
             }
         }
 
-        public GameState LoadGame()
+        public GameState LoadGame(string PlayerId)
         {
             using (var db = new LiteDatabase(_databasePath))
             {
                 var gameCollection = db.GetCollection<GameState>("gameState");
-                return gameCollection.FindAll().FirstOrDefault();
+                var gameState = gameCollection.FindOne(g => g.PlayerId == PlayerId);
+                return gameState;
+            }
+        }
+
+        public IEnumerable<GameState> GetAllSaveGames()
+        {
+            using (var db = new LiteDatabase(_databasePath))
+            {
+                var gameCollection = db.GetCollection<GameState>("gameState");
+                return gameCollection.FindAll().ToList();
             }
         }
     }

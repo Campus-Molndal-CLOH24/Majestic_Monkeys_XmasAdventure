@@ -12,22 +12,36 @@ namespace Xmasgame.Logic
 {
     public static class CommandHandler
     {
-        public static void StartNewGame(GameState gameState) // create new game ? 
+        public static void StartNewGame(GameState gameState, IgameRespository repository) // create new game  and save it
         {
             Console.WriteLine("Starting a new game .....");
             Console.WriteLine("What is your name?");
             gameState.PlayerName = Console.ReadLine();
             gameState.Reset();
+            repository.SaveGame(gameState);
             Console.WriteLine($"Welcome, {gameState.PlayerName}! Let’s start the adventure.");
 
-            PlayGame(gameState);
+            //PlayGame(gameState);
 
         }
         //load game method
-        public static void LoadGame(GameState gameState)
+        public static void LoadGame(GameState gameState, IgameRespository repository)
         {
             Console.WriteLine("Resumimg your Game ......... ");
             System.Console.WriteLine("Welcome back, " + gameState.PlayerName + "!");
+            try
+            {
+                GameState loadedGame = repository.LoadGame();
+                gameState.PlayerName = loadedGame.PlayerName;
+                gameState.MagicBallsFound = loadedGame.MagicBallsFound;
+                gameState.lives = loadedGame.lives;
+                gameState.attemptsLeft = loadedGame.attemptsLeft;
+                Console.WriteLine("Game loaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading game: {ex.Message}");
+            }
             PlayGame(gameState);
 
         }
@@ -64,6 +78,7 @@ namespace Xmasgame.Logic
         {
             Console.WriteLine("Saving Game ......... ");
         }
+
         //playerName, int magicBallsFound, int totalMagicBalls, int lives, int attemptsLeft
         public static void ShowGameProgress(GameState gameState)
         {
