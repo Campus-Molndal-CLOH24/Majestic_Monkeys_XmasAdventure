@@ -75,7 +75,10 @@ namespace Xmasgame.UI
                         break;
                     case "2":
                         _commandHandler.LoadGame(gamestate, _repository);
-                        //CommandHandler.ShowGameProgress(gamestate);
+                        if (gamestate.PlayerId != null) // Only play if the game was loaded successfully
+                        {
+                            _commandHandler.PlayGame(gamestate, _repository);
+                        }
                         break;
                     case "3":
                         ShowHelp(_gamedisplay);
@@ -85,6 +88,7 @@ namespace Xmasgame.UI
                         break;
                     case "5":
                         Console.WriteLine("Thanks for playing! Goodbye!");
+                        gamestate.IsQuitting = true;
                         Environment.Exit(0); //exit from the loop use running return false before but it did not work it, so user stuck on my game forever
                         break;
                     default:

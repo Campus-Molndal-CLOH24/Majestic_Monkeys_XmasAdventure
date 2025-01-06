@@ -49,15 +49,18 @@ namespace Xmasgame.Logic
                 var loadedGame = repository.LoadGame(PlayerName);
                 if (loadedGame != null)
                 {
-                    Console.WriteLine($"Game loaded successfully for player: {loadedGame.PlayerName}");
+                    
                     gameState.PlayerId = loadedGame.PlayerId;
                     gameState.PlayerName = loadedGame.PlayerName;
                     gameState.MagicBallsFound = loadedGame.MagicBallsFound;
                     gameState.lives = loadedGame.lives;
                     gameState.attemptsLeft = loadedGame.attemptsLeft;
-                    Console.WriteLine("Game loaded successfully.");
+                    Console.WriteLine($"Game loaded successfully for player: {gameState.PlayerName}");
+                    Console.WriteLine($"Game loaded successfully. PlayerId: {gameState.PlayerId}");
+
+
                 }
-                else
+                else 
                 {
                     Console.WriteLine($"No saved game found for player name: {PlayerName}");
                     return;
@@ -73,7 +76,7 @@ namespace Xmasgame.Logic
         // play game method
         public  void PlayGame(GameState gameState, IgameRespository repository)
         {
-            while (gameState.attemptsLeft > 0 && gameState.lives > 0)
+            while (gameState.attemptsLeft > 0 && gameState.lives > 0 && !gameState.IsQuitting)
             {
 
                 _roomhandler.HandlerRoomChoice(gameState);
@@ -85,8 +88,10 @@ namespace Xmasgame.Logic
                 if (!_gameActionHandler.HandleSaveOrQuit(gameState))
                 {
                     repository.SaveGame(gameState);
+                    gameState.IsQuitting = true;
                     break;
                 }
+                
 
                 if (gameState.MagicBallsFound >= gameState.totalMagicBalls)
                 {
@@ -99,6 +104,11 @@ namespace Xmasgame.Logic
             {
                 Console.WriteLine("You're out of attempts. Game Over!");
                 repository.SaveGame(gameState);
+            }
+            if (gameState.IsQuitting)
+            {
+                
+                return; // Exit the Run() method
             }
         }
         // save game method

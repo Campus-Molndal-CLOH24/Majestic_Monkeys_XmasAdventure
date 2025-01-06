@@ -15,6 +15,7 @@ namespace Xmasgame.Models
         public int lives { get; set; } = 3;
         public int totalMagicBalls { get; set; } = 3;
         public int attemptsLeft { get; set; } = 10;
+        public bool IsQuitting { get; set; } = false;
 
         public void Reset()
         {

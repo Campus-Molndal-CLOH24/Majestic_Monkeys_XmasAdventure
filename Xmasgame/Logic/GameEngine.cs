@@ -34,17 +34,24 @@ namespace Xmasgame.Logic
 
             var _commandHandler = new CommandHandler(_roomHandler, _magicBallHandler, _gameActionHandler); //use depency injection to pass the handler to command handler
             _mainmenu = new MainMenu(display, inputHandler, repository, _commandHandler);
-           
+
         }
 
-        public void Run() 
+        public void Run()
         {
-                // Game loop
-                while (true)
+            bool isRunning = true;
+            // Game loop
+            while (!_gameState.IsQuitting) // Continue running until the user quits
+            {
+                _mainmenu.HandleMainMenu(_gameState); // Handle main menu and options
+
+                if (_gameState.IsQuitting) // Check if the user chose to quit
                 {
-                    _mainmenu.HandleMainMenu(_gameState);
+                    _display.ShowMessage("Thanks for playing! Goodbye!");
+                    return; // Exit the Run() method entirely
                 }
-            
+
+            }
         }
     }
 }
