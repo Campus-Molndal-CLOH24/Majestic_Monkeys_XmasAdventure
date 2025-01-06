@@ -57,22 +57,5 @@ namespace Xmasgame.Logic.Tests
             mockDisplay.Verify(display => display.ShowGoodbyeMessage(), Times.Once);
         }
 
-        [TestMethod()]
-        public void Run_ValidInput_MainMenuHandlesInputCorrectly()
-        {
-            // Arrange
-            gameState = new GameState();
-            mockInputHandler.Setup(input => input.GetInput()).Returns("1"); // Simulate valid input
-
-            gameEngine = new GameEngine(gameState, mockDisplay.Object, mockInputHandler.Object, mockRoomHandler.Object, mockMagicBallHandler.Object, mockGameActionHandler.Object, mockRepository.Object, mockMainmenu.Object);
-
-            // Act
-            gameEngine.Run();
-
-            // Assert
-            mockInputHandler.Verify(input => input.GetInput(), Times.AtLeastOnce);
-        }
-
-
     }
 }

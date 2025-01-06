@@ -26,24 +26,24 @@ namespace Xmasgame.Logic
         }
         
         // start new game method
-        public void StartNewGame(GameState gameState, IgameRespository repository) // create new game  and save it
+        public void StartNewGame(GameState gameState, IgameRespository repository, IInputhandler inputhandler) // create new game  and save it
         {
             Console.WriteLine("Starting a new game .....");
             Console.WriteLine("What is your name?");
-            gameState.PlayerName = Console.ReadLine();
+            gameState.PlayerName = inputhandler.GetInput();
             gameState.PlayerId = Guid.NewGuid().ToString().Substring(0,4);
             gameState.Reset();
             repository.SaveGame(gameState);
             Console.WriteLine($"Welcome, {gameState.PlayerName}! Let’s start the adventure.");
 
-            PlayGame(gameState, repository);
+            PlayGame(gameState, repository, inputhandler);
 
         }
         //load game method
-        public void LoadGame(GameState gameState, IgameRespository repository)
+        public void LoadGame(GameState gameState, IgameRespository repository, IInputhandler inputhandler)
         {
             Console.WriteLine("Enter your  Name to load your saved game:");
-            string PlayerName = Console.ReadLine();
+            string PlayerName = inputhandler.GetInput();
             try
             {
                 var loadedGame = repository.LoadGame(PlayerName);
@@ -70,11 +70,11 @@ namespace Xmasgame.Logic
             {
                 Console.WriteLine($"Error loading game: {ex.Message}");
             }
-            PlayGame(gameState, repository);
+            PlayGame(gameState, repository, inputhandler);
 
         }
         // play game method
-        public  void PlayGame(GameState gameState, IgameRespository repository)
+        public  void PlayGame(GameState gameState, IgameRespository repository, IInputhandler inputhandler)
         {
             while (gameState.attemptsLeft > 0 && gameState.lives > 0 && !gameState.IsQuitting)
             {
@@ -85,7 +85,7 @@ namespace Xmasgame.Logic
 
                 Console.WriteLine($"\nAttempts Left: {gameState.attemptsLeft}, Lives: {gameState.lives}");
 
-                if (!_gameActionHandler.HandleSaveOrQuit(gameState, () => Console.ReadLine() ?? string.Empty))
+                if (!_gameActionHandler.HandleSaveOrQuit(gameState, () => inputhandler.GetInput()))
                 {
                     repository.SaveGame(gameState);
                     gameState.IsQuitting = true;

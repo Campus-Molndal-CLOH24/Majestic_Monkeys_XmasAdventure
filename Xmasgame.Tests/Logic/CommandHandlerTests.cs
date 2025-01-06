@@ -20,55 +20,57 @@ namespace Xmasgame.Logic.Tests
         private Mock<IMagicBallHandler>? _mockMagicBallHandler;
         private Mock<IGameActionHandler>? _mockGameActionHandler;
         private Mock<IgameRespository>? _mockRepository;
+        private readonly Mock<IInputhandler> mockInputHandler = new Mock<IInputhandler>();
         private CommandHandler? _commandHandler;
 
         [TestInitialize]
         public void Setup()
         {
+            // Initialize mocks for dependencies
             _mockRoomhandler = new Mock<IRoomhandler>();
             _mockMagicBallHandler = new Mock<IMagicBallHandler>();
             _mockGameActionHandler = new Mock<IGameActionHandler>();
             _mockRepository = new Mock<IgameRespository>();
 
+            // Initialize the CommandHandler with mocked dependencies
             _commandHandler = new CommandHandler(
                 _mockRoomhandler.Object,
                 _mockMagicBallHandler.Object,
                 _mockGameActionHandler.Object
             );
         }
-        // test for start new game 
-        //when the player name is entered and the game is saved also initialized as it should be 
+
         [TestMethod()]
         public void StartNewGame_ShouldInitializeGameStateAndSaveGame()
         {
-            //arrange
+            // Arrange
             var gameState = new GameState();
+            // Setup the repository mock to expect a SaveGame call
             _mockRepository!.Setup(repo => repo.SaveGame(It.IsAny<GameState>()));
+            // Setup the input handler mock to return "TestPlayer" when GetInput is called
+            mockInputHandler.Setup(input => input.GetInput()).Returns("TestPlayer");
 
-            //act
-            //Capturing Console Input/Output and simulate user input and capture console output
-            //effectively simulate and test console interactions without requiring actual user input or console output, making the test automated and repeatable.
-            using (var input = new StringReader("TestPlayer"))
+            // Act
             using (var output = new StringWriter())
             {
-                Console.SetIn(input);
                 Console.SetOut(output);
 
-                _commandHandler!.StartNewGame(gameState, _mockRepository.Object);
+                // Call the StartNewGame method
+                _commandHandler!.StartNewGame(gameState, _mockRepository.Object, mockInputHandler.Object);
             }
 
-            //assert
+            // Assert
+            // Verify that the game state is initialized correctly
             Assert.AreEqual("TestPlayer", gameState.PlayerName);
             Assert.IsNotNull(gameState.PlayerId);
-            // Verify the SaveGame method was called
+            // Verify that the SaveGame method was called at least once
             _mockRepository.Verify(repo => repo.SaveGame(It.IsAny<GameState>()), Times.AtLeastOnce);
         }
-        //Load game method 
-        //scenario when the game is loaded successfully after user exits the game
+
         [TestMethod()]
         public void LoadGame_ShouldLoadSavedGameSuccessfully_WhenGameExists()
         {
-            //arrange
+            // Arrange
             var gameState = new GameState { PlayerName = "TestPlayer" };
             var savedGame = new GameState
             {
@@ -76,59 +78,60 @@ namespace Xmasgame.Logic.Tests
                 PlayerId = "1234",
                 MagicBallsFound = 1,
                 lives = 3,
-                attemptsLeft = 5 // Mocked value
+                attemptsLeft = 5
             };
+            // Setup the repository mock to return the saved game when LoadGame is called
             _mockRepository!.Setup(repo => repo.LoadGame("TestPlayer")).Returns(savedGame);
+            // Setup the input handler mock to return "TestPlayer" when GetInput is called
+            mockInputHandler.Setup(input => input.GetInput()).Returns("TestPlayer");
 
-            using (var input = new StringReader("TestPlayer"))
             using (var output = new StringWriter())
             {
-                Console.SetIn(input);
                 Console.SetOut(output);
 
-                // Log the initial value of attemptsLeft
-                Console.WriteLine($"Initial attemptsLeft: {gameState.attemptsLeft}");
+                // Act
+                // Call the LoadGame method
+                _commandHandler!.LoadGame(gameState, _mockRepository.Object, mockInputHandler.Object);
 
-                //act
-                _commandHandler!.LoadGame(gameState, _mockRepository.Object);
-
-                // Log the value of attemptsLeft after LoadGame
-                Console.WriteLine($"After LoadGame attemptsLeft: {gameState.attemptsLeft}");
-
-                //assert
+                // Assert
+                // Verify that the game state is loaded correctly
                 Assert.AreEqual("TestPlayer", gameState.PlayerName);
                 Assert.AreEqual("1234", gameState.PlayerId);
                 Assert.AreEqual(1, gameState.MagicBallsFound);
                 Assert.AreEqual(3, gameState.lives);
                 Assert.AreEqual(5, gameState.attemptsLeft);
+                // Verify that the output contains the success message
                 StringAssert.Contains(output.ToString(), "Game loaded successfully for player: TestPlayer");
             }
         }
-        //scenario when the game is not found, and will thorw excenption
+
         [TestMethod()]
         public void LoadGame_ShouldFailGracefully_WhenNoSavedGameIsFound()
         {
-            //arrange
+            // Arrange
             var gameState = new GameState
             {
                 PlayerName = "UnknownPlayer",
                 PlayerId = string.Empty
             };
+            // Setup the repository mock to return null when LoadGame is called with "UnknownPlayer"
             _mockRepository!.Setup(repo => repo.LoadGame("UnknownPlayer")).Returns((GameState?)null);
+            // Setup the input handler mock to return "UnknownPlayer" when GetInput is called
+            mockInputHandler.Setup(input => input.GetInput()).Returns("UnknownPlayer");
 
-            using (var input = new StringReader("UnknownPlayer"))
             using (var output = new StringWriter())
             {
-                Console.SetIn(input);
                 Console.SetOut(output);
-                //act
-                if (_commandHandler != null)
-                {
-                    _commandHandler.LoadGame(gameState, _mockRepository.Object);
-                }
-                //assert
-                Assert.AreEqual("UnknownPlayer", gameState.PlayerName); // Or expected default value
+
+                // Act
+                // Call the LoadGame method
+                _commandHandler!.LoadGame(gameState, _mockRepository.Object, mockInputHandler.Object);
+
+                // Assert
+                // Verify that the game state remains unchanged
+                Assert.AreEqual("UnknownPlayer", gameState.PlayerName);
                 Assert.AreEqual(string.Empty, gameState.PlayerId);
+                // Verify that the output contains the failure message
                 StringAssert.Contains(output.ToString(), "No saved game found for player name: UnknownPlayer");
             }
         }

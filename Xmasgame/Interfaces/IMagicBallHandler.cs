@@ -9,6 +9,6 @@ namespace Xmasgame.Interfaces
 {
     public interface IMagicBallHandler
     {
-        void SearchMagicBalls(GameState gameState);
+        void SearchMagicBalls(GameState gameState, int? randomValue = null);
     }
 }

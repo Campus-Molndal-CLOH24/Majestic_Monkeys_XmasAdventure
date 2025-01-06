@@ -10,10 +10,12 @@ namespace Xmasgame.Logic
 {
     public  class MagicballHandler : IMagicBallHandler
     {
-        public  void SearchMagicBalls(GameState gameState)
+        public  void SearchMagicBalls(GameState gameState , int? randomValue = null)
         {
-            Random random = new Random(); // call randon method
-            int result = random.Next(0, 101);
+
+
+            // Generate a random value if none is provided
+            int result = randomValue ?? new Random().Next(0, 101);
             if (result <= 40)
             {
                 gameState.MagicBallsFound++;

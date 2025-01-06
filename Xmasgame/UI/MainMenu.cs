@@ -71,13 +71,13 @@ namespace Xmasgame.UI
                 switch (choice)
                 {
                     case "1":
-                        _commandHandler.StartNewGame(gamestate, _repository);
+                        _commandHandler.StartNewGame(gamestate, _repository, _inputHandler);
                         break;
                     case "2":
-                        _commandHandler.LoadGame(gamestate, _repository);
+                        _commandHandler.LoadGame(gamestate, _repository, _inputHandler);
                         if (gamestate.PlayerId != null) // Only play if the game was loaded successfully
                         {
-                            _commandHandler.PlayGame(gamestate, _repository);
+                            _commandHandler.PlayGame(gamestate, _repository, _inputHandler);
                         }
                         break;
                     case "3":
@@ -95,11 +95,11 @@ namespace Xmasgame.UI
                         Console.WriteLine("Invalid choice!");
                         break;
                 }
-                
+
                 if (running) // Only prompt for Enter if the loop will continue
                 {
                     Console.WriteLine("\nPress Enter to continue...");
-                    Console.ReadLine();
+                    _inputHandler.GetInput(); // Wait for user to press Enter
                 }
             }
         }
