@@ -114,10 +114,14 @@ Program.cs             # Entry point for the game
 # Contributing
 Feel free to contribute to this project! If you have ideas for new features or improvements, 
 open an issue or submit a pull request.
-
+# Member 
+- Yotaka Khaowkomol
+- Karam Al Raai
 # License
 This game is released under the MIT License.
+
 
 ## Background Music 🎵
 
 [Play music here](https://open.spotify.com/track/6DJ6Va1jpFcErKtQi7BAJv?si=4f910aa210654281)
+
