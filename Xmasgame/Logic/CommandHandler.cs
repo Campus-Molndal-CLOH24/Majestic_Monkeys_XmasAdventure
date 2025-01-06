@@ -18,11 +18,16 @@ namespace Xmasgame.Logic
         private readonly IRoomhandler _roomhandler;
         private readonly IMagicBallHandler _magicballhandler;
         private readonly IGameActionHandler _gameActionHandler;
-        public CommandHandler(IRoomhandler roomhandler, IMagicBallHandler magicballhandler, IGameActionHandler gameActionHandler)
+        private readonly IgameRespository _repository;
+        private readonly IInputhandler _inputHandler;
+
+        public CommandHandler(IRoomhandler roomhandler, IMagicBallHandler magicballhandler, IGameActionHandler gameActionHandler, IgameRespository repository, IInputhandler inputhandler)
         {
             _roomhandler = roomhandler;
             _magicballhandler = magicballhandler;
             _gameActionHandler = gameActionHandler;
+            _repository = repository;
+            _inputHandler = inputhandler;
         }
         
         // start new game method

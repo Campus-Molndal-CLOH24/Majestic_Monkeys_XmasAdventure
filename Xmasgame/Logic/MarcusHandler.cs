@@ -15,6 +15,15 @@ namespace Xmasgame.Logic
             Console.WriteLine("MWAHAHAHA! Marcus challenges you with a riddle... ");
             Console.WriteLine("What has to be broken before you can use it?");
             string answer = inputhandler.GetInput().ToLower();
+            if (inputhandler != null)
+            {
+                MarcusHandler.EnconterMarcus(gameState, inputhandler);
+            }
+            else
+            {
+                Console.WriteLine("Input handler is not initialized.");
+            }
+            
 
             if (answer == "egg")
             {

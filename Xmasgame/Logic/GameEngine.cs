@@ -33,7 +33,7 @@ namespace Xmasgame.Logic
             this._repository = repository;
             this._mainmenu = mainMenu;
 
-            var _commandHandler = new CommandHandler(_roomHandler, _magicBallHandler, _gameActionHandler); //use depency injection to pass the handler to command handler
+            var _commandHandler = new CommandHandler(_roomHandler, _magicBallHandler, _gameActionHandler, repository, inputHandler); //use depency injection to pass the handler to command handler
             _mainmenu = new MainMenu(display, inputHandler, repository, _commandHandler);
 
         }

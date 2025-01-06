@@ -26,6 +26,11 @@ namespace Xmasgame.Logic
             else if (result <= 70)
             {
                 Console.WriteLine("Oh Nooooo, Marcus has set a trap!");
+                if (inputhandler == null)
+                {
+                    Console.WriteLine("Input handler is not initialized.");
+                    return;
+                }
                 MarcusHandler.EnconterMarcus(gameState, inputhandler);
             }
             else

@@ -21,7 +21,7 @@ public static class Program
         IRoomhandler roomHandler = new RoomHandler(inputHandler);
         
 
-        CommandHandler commandHandler = new CommandHandler(roomHandler, magicBallHandler, gameActionHandler);
+        CommandHandler commandHandler = new CommandHandler(roomHandler, magicBallHandler, gameActionHandler, repository, inputHandler);
         IMainmenu mainMenu = new MainMenu(display, inputHandler, repository, commandHandler);
         GameState gameState = new GameState(); // get reslove from pilot 
 

@@ -36,7 +36,10 @@ namespace Xmasgame.Logic.Tests
             _commandHandler = new CommandHandler(
                 _mockRoomhandler.Object,
                 _mockMagicBallHandler.Object,
-                _mockGameActionHandler.Object
+                _mockGameActionHandler.Object, 
+                _mockRepository.Object,
+                mockInputHandler.Object
+
             );
         }
 

@@ -29,7 +29,7 @@ namespace Xmasgame.Logic
                         _saveGame(gameState);
                         Console.WriteLine("Game saved. Do you want to (C)ontinue or (Q)uit?");
                         choice = inputProvider()?.Trim().ToUpper();
-                        return true;
+                        return false;
                     case "Q":
                         Console.WriteLine("Quitting game. See you next time!");
                         return false;
