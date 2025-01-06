@@ -9,6 +9,6 @@ namespace Xmasgame.Interfaces
 {
     public interface IGameActionHandler
     {
-        bool HandleSaveOrQuit(GameState gameState);
+        bool HandleSaveOrQuit(GameState gameState, Func<string> inputProvider);
     }
 }

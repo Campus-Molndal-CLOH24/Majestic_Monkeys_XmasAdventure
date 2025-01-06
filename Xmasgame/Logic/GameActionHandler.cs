@@ -16,24 +16,27 @@ namespace Xmasgame.Logic
         {
             _saveGame = saveGame;
         }
-        public  bool HandleSaveOrQuit(GameState gameState)
+        public  bool HandleSaveOrQuit(GameState gameState, Func<string> inputProvider) //use mock to test user input  without relying on console
         {
-            Console.WriteLine("\nDo you want to (C)ontinue, (S)ave, or (Q)uit?");
-            string choice = Console.ReadLine()?.ToUpper();
+                Console.WriteLine("\nDo you want to (C)ontinue, (S)ave, or (Q)uit?");
+                string choice = inputProvider()?.Trim().ToUpper();
 
-            if (choice == "S")
-            {
-                _saveGame(gameState); //just temporary 
-                Console.WriteLine("Game saved. Do you want to (C)ontinue or (Q)uit?");
-                choice = Console.ReadLine()?.ToUpper();
+                switch (choice) 
+                {
+                    case "C":
+                        return true;
+                    case "S":
+                        _saveGame(gameState);
+                        Console.WriteLine("Game saved. Do you want to (C)ontinue or (Q)uit?");
+                        choice = inputProvider()?.Trim().ToUpper();
+                        return true;
+                    case "Q":
+                        Console.WriteLine("Quitting game. See you next time!");
+                        return false;
+                    default:
+                        Console.WriteLine($"Invalid choice: '{choice}'. Expected 'C', 'S', or 'Q'.");
+                        return HandleSaveOrQuit(gameState, inputProvider); // Reprompt recursively
             }
-            if (choice == "Q")
-            {
-                Console.WriteLine("Quitting game. See you next time!");
-                return false;
-            
-            }
-            return true; // Continue the game if the choice is "C" or any other input
         }
     }
 }

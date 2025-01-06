@@ -36,7 +36,8 @@ namespace Xmasgame.Logic.Tests
                 _mockGameActionHandler.Object
             );
         }
-
+        // test for start new game 
+        //when the player name is entered and the game is saved also initialized as it should be 
         [TestMethod()]
         public void StartNewGame_ShouldInitializeGameStateAndSaveGame()
         {
@@ -45,6 +46,8 @@ namespace Xmasgame.Logic.Tests
             _mockRepository!.Setup(repo => repo.SaveGame(It.IsAny<GameState>()));
 
             //act
+            //Capturing Console Input/Output and simulate user input and capture console output
+            //effectively simulate and test console interactions without requiring actual user input or console output, making the test automated and repeatable.
             using (var input = new StringReader("TestPlayer"))
             using (var output = new StringWriter())
             {
@@ -60,7 +63,8 @@ namespace Xmasgame.Logic.Tests
             // Verify the SaveGame method was called
             _mockRepository.Verify(repo => repo.SaveGame(It.IsAny<GameState>()), Times.AtLeastOnce);
         }
-
+        //Load game method 
+        //scenario when the game is loaded successfully after user exits the game
         [TestMethod()]
         public void LoadGame_ShouldLoadSavedGameSuccessfully_WhenGameExists()
         {
@@ -100,7 +104,7 @@ namespace Xmasgame.Logic.Tests
                 StringAssert.Contains(output.ToString(), "Game loaded successfully for player: TestPlayer");
             }
         }
-
+        //scenario when the game is not found, and will thorw excenption
         [TestMethod()]
         public void LoadGame_ShouldFailGracefully_WhenNoSavedGameIsFound()
         {

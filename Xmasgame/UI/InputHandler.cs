@@ -9,22 +9,23 @@ namespace Xmasgame.UI
 {
     public class InputHandler : IInputhandler
     {
-
-
         public int GetRoomchoice(string[] rooms, Func<string> inputProvider)
         {
-            while (true)
+            int maxAttempts = 10; // Set a maximum number of attempts to avoid infinite loop
+            int attempts = 0;
+
+            while (attempts < maxAttempts)
             {
-                // display only list where player want to go 
+                // Display the list of rooms
                 Console.WriteLine("\nChoose a room to go : ");
                 for (int i = 0; i < rooms.Length; i++)
                 {
                     Console.WriteLine($"{i + 1}. {rooms[i]}");
                 }
-                //handle with choice i tried without before it was a forever run all the times >0<
-                //so we need it to handle with choice which we use index to handle it. 
+
+                // Handle user choice
                 Console.Write("Enter your choice: ");
-                string userInput = inputProvider(); // use inputProvider to get input instead of Console.ReadLine() directly
+                string userInput = inputProvider(); // Use inputProvider to get input instead of Console.ReadLine() directly
                 if (int.TryParse(userInput, out int index) && index >= 1 && index <= rooms.Length)
                 {
                     Console.WriteLine($"You chose option {index}");
@@ -33,9 +34,12 @@ namespace Xmasgame.UI
                 else
                 {
                     Console.WriteLine("Invalid input. Please try again.");
-
+                    attempts++;
                 }
             }
+
+            // Return -1 if maximum attempts are reached without valid input
+            return -1;
         }
     }
 }

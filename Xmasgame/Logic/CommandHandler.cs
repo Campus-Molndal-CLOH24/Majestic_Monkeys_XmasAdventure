@@ -81,17 +81,18 @@ namespace Xmasgame.Logic
 
                 _roomhandler.HandlerRoomChoice(gameState);
                 _magicballhandler.SearchMagicBalls(gameState);
-                gameState.attemptsLeft--;
+                
 
                 Console.WriteLine($"\nAttempts Left: {gameState.attemptsLeft}, Lives: {gameState.lives}");
 
-                if (!_gameActionHandler.HandleSaveOrQuit(gameState))
+                if (!_gameActionHandler.HandleSaveOrQuit(gameState, () => Console.ReadLine() ?? string.Empty))
                 {
                     repository.SaveGame(gameState);
                     gameState.IsQuitting = true;
                     break;
                 }
-                
+                // Decrease attempts only after the player has completed their turn
+                gameState.attemptsLeft--;
 
                 if (gameState.MagicBallsFound >= gameState.totalMagicBalls)
                 {
