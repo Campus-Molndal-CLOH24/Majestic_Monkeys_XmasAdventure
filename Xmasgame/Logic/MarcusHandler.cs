@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xmasgame.Interfaces;
 using Xmasgame.Models;
 
 namespace Xmasgame.Logic
 {
     public static class MarcusHandler
     {
-        public static void EnconterMarcus(GameState gameState)
+        public static void EnconterMarcus(GameState gameState, IInputhandler inputhandler)
         {
             Console.WriteLine("MWAHAHAHA! Marcus challenges you with a riddle... ");
             Console.WriteLine("What has to be broken before you can use it?");
-            string answer = Console.ReadLine()?.ToLower();
+            string answer = inputhandler.GetInput().ToLower();
 
             if (answer == "egg")
             {

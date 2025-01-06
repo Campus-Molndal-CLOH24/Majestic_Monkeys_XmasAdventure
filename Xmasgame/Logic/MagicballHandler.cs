@@ -10,6 +10,8 @@ namespace Xmasgame.Logic
 {
     public  class MagicballHandler : IMagicBallHandler
     {
+        private IInputhandler inputhandler;
+
         public  void SearchMagicBalls(GameState gameState , int? randomValue = null)
         {
 
@@ -24,7 +26,7 @@ namespace Xmasgame.Logic
             else if (result <= 70)
             {
                 Console.WriteLine("Oh Nooooo, Marcus has set a trap!");
-                MarcusHandler.EnconterMarcus(gameState);
+                MarcusHandler.EnconterMarcus(gameState, inputhandler);
             }
             else
             {
