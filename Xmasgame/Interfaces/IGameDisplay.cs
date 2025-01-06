@@ -12,6 +12,8 @@ namespace Xmasgame.Interfaces
         void ShowWarning(string warning);
         void ShowBanner(string title);
         void ShowProgress(string playerName, int magicBallsFound, int totalMagicBalls, int lives);
+        void ShowGoodbyeMessage();
+        void ClearScreen();
     }
 }
 

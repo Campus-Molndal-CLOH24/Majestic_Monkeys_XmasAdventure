@@ -19,11 +19,14 @@ public static class Program
         IMagicBallHandler magicBallHandler = new MagicballHandler();
         IGameActionHandler gameActionHandler = new GameActionHandler(repository.SaveGame);
         IRoomhandler roomHandler = new RoomHandler(inputHandler);
+        
 
         CommandHandler commandHandler = new CommandHandler(roomHandler, magicBallHandler, gameActionHandler);
-
+        IMainmenu mainMenu = new MainMenu(display, inputHandler, repository, commandHandler);
         GameState gameState = new GameState(); // get reslove from pilot 
-        GameEngine engine = new GameEngine(gameState,display, inputHandler, roomHandler, magicBallHandler, gameActionHandler, repository);
+
+        GameEngine engine = new GameEngine(gameState,display, inputHandler, roomHandler, magicBallHandler, gameActionHandler, repository, mainMenu);
+
 
         engine.Run(); // Start the game loop
 

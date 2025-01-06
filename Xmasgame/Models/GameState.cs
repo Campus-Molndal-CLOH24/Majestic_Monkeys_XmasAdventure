@@ -22,6 +22,7 @@ namespace Xmasgame.Models
             MagicBallsFound = 0;
             lives = 4;
             totalMagicBalls = 3;
+            
         }
     }
 }

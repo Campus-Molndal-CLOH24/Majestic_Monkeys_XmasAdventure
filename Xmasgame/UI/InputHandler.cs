@@ -41,5 +41,9 @@ namespace Xmasgame.UI
             // Return -1 if maximum attempts are reached without valid input
             return -1;
         }
+        public string GetInput()
+        {
+            return Console.ReadLine();
+        }
     }
 }

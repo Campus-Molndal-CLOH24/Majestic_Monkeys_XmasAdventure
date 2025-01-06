@@ -35,5 +35,19 @@ namespace Xmasgame.UI
             Console.WriteLine($"Lives Remaining: {lives}");
             Console.WriteLine("=========================\n");
         }
+        public void ShowGoodbyeMessage()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Thanks for playing! Goodbye!");
+            Console.ResetColor();
+        }
+        public void ShowGameWinnMessage() 
+        {
+            Console.WriteLine(" ");
+        }
+        public void ClearScreen()
+        {
+            Console.Clear(); // Actual console clear operation
+        }
     }
 }

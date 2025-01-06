@@ -12,7 +12,7 @@ using Xmasgame.UI;
 
 namespace Xmasgame.UI
 {
-    public class MainMenu
+    public class MainMenu : IMainmenu
     {
         private readonly IGameDisplay _gamedisplay;
         private readonly IInputhandler _inputHandler;
@@ -29,7 +29,7 @@ namespace Xmasgame.UI
 
         public void DisplayEntryPoint()
         {
-            Console.Clear();
+            _gamedisplay.ClearScreen();
             Console.ForegroundColor = ConsoleColor.Green; // Set color to green
             Console.WriteLine("         *         ");
             Console.WriteLine("        ***        ");
@@ -65,8 +65,8 @@ namespace Xmasgame.UI
             while (running)
             {
                 DisplayEntryPoint();
-                Console.Write("Enter your choice (1-4) : ");
-                var choice = Console.ReadLine();
+                Console.Write("Enter your choice (1-5) : ");
+                var choice = _inputHandler.GetInput(); // Use the InputHandler to get input
 
                 switch (choice)
                 {
@@ -95,6 +95,7 @@ namespace Xmasgame.UI
                         Console.WriteLine("Invalid choice!");
                         break;
                 }
+                
                 if (running) // Only prompt for Enter if the loop will continue
                 {
                     Console.WriteLine("\nPress Enter to continue...");
@@ -102,6 +103,7 @@ namespace Xmasgame.UI
                 }
             }
         }
+        //facade pattern
         private void LoadGameMenu(GameState gameState)
         {
             var savedGames = _repository.GetAllSaveGames().ToList();

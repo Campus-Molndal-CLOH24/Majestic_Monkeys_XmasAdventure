@@ -20,9 +20,9 @@ namespace Xmasgame.Logic
         private readonly IGameActionHandler _gameActionHandler;
         private readonly IgameRespository _repository;
         //private readonly CommandHandler _commandHandler;
-        private readonly MainMenu _mainmenu;
+        private readonly IMainmenu _mainmenu;
 
-        public GameEngine(GameState gameState, IGameDisplay display, IInputhandler inputHandler, IRoomhandler roomHandler, IMagicBallHandler magicBallHandler, IGameActionHandler gameActionHandler, IgameRespository repository)
+        public GameEngine(GameState gameState, IGameDisplay display, IInputhandler inputHandler, IRoomhandler roomHandler, IMagicBallHandler magicBallHandler, IGameActionHandler gameActionHandler, IgameRespository repository, IMainmenu mainMenu)
         {
             this._gameState = gameState;
             this._display = display;
@@ -31,6 +31,7 @@ namespace Xmasgame.Logic
             this._magicBallHandler = magicBallHandler;
             this._gameActionHandler = gameActionHandler;
             this._repository = repository;
+            this._mainmenu = mainMenu;
 
             var _commandHandler = new CommandHandler(_roomHandler, _magicBallHandler, _gameActionHandler); //use depency injection to pass the handler to command handler
             _mainmenu = new MainMenu(display, inputHandler, repository, _commandHandler);
@@ -39,7 +40,13 @@ namespace Xmasgame.Logic
 
         public void Run()
         {
-            bool isRunning = true;
+            
+            if (_gameState.IsQuitting)
+            {
+                _display.ShowGoodbyeMessage();
+                return; // Exit immediately if the game is set to quit
+            }
+            //bool isRunning = true;
             // Game loop
             while (!_gameState.IsQuitting) // Continue running until the user quits
             {
@@ -47,7 +54,7 @@ namespace Xmasgame.Logic
 
                 if (_gameState.IsQuitting) // Check if the user chose to quit
                 {
-                    _display.ShowMessage("Thanks for playing! Goodbye!");
+                    _display.ShowGoodbyeMessage();
                     return; // Exit the Run() method entirely
                 }
 
